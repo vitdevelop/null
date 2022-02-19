@@ -1,6 +1,7 @@
 package zero
 
 import (
+	"database/sql/driver"
 	"encoding/json"
 	"errors"
 	"testing"
@@ -177,12 +178,13 @@ func TestTimeScan(t *testing.T) {
 
 func TestTimeValue(t *testing.T) {
 	ti := TimeFrom(timeValue1)
-	v, err := ti.Value()
+	_, err := ti.Value()
 	maybePanic(err)
 	if ti.Time != timeValue1 {
 		t.Errorf("bad time.Time value: %v ≠ %v", ti.Time, timeValue1)
 	}
 
+	var v driver.Value
 	var nt time.Time
 	zero := TimeFrom(nt)
 	v, err = zero.Value()
